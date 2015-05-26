@@ -17,6 +17,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [self initDrawer];
     return YES;
 }
 
@@ -41,5 +42,15 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
+-(void)initDrawer
+{
+    UIStoryboard *mainStoryboard =[UIStoryboard storyboardWithName:@"main" bundle:nil];
+    drawerController =[[MMDrawerController alloc] initWithCenterViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"centerNav"] leftDrawerViewController:[mainStoryboard instantiateViewControllerWithIdentifier:@"menu"]];
+    
+    [drawerController setDrawerVisualStateBlock:[MMDrawerVisualState slideAndScaleVisualStateBlock]];
+    [drawerController setMaximumLeftDrawerWidth:260.0];
+    [drawerController setCloseDrawerGestureModeMask:MMOpenDrawerGestureModePanningNavigationBar];
+    [drawerController setCloseDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    self.window.rootViewController =drawerController;
+}
 @end
